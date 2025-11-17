@@ -4,13 +4,13 @@ Aplicación móvil desarrollada con Ionic Framework y Angular (NgModules) para l
 
 ## Características
 
-- ✅ Autenticación con Firebase (Email/Password)
-- ✅ Gestión de roles (Asesor Comercial, Usuario Registrado, Invitado)
-- ✅ CRUD completo de planes móviles
-- ✅ Chat en tiempo real con Firebase Firestore
-- ✅ Almacenamiento de imágenes con Firebase Storage
-- ✅ Contratación de planes
-- ✅ Gestión de contrataciones
+- Autenticación con Firebase (Email/Password)
+- Gestión de roles (Asesor Comercial, Usuario Registrado, Invitado)
+- CRUD completo de planes móviles
+- Chat en tiempo real con Firebase Firestore
+- Almacenamiento de imágenes con Firebase Storage
+- Contratación de planes
+- Gestión de contrataciones
 
 ## Requisitos Previos
 
@@ -123,6 +123,15 @@ npm install
 
 ## Ejecutar la Aplicación
 
+<img width="1341" height="475" alt="image" src="https://github.com/user-attachments/assets/80ef8785-2cd2-42ff-8254-929bd394c533" />
+
+<img width="565" height="556" alt="image" src="https://github.com/user-attachments/assets/0e89a5fa-7650-4859-851c-a556cd9bfdd6" />
+
+<img width="625" height="505" alt="image" src="https://github.com/user-attachments/assets/b9d93606-90ea-4cce-a78d-bb994c219224" />
+
+<img width="1348" height="629" alt="image" src="https://github.com/user-attachments/assets/6ec92031-c1b0-4fa2-997e-ebf99f6c11e4" />
+
+
 ### Desarrollo (Navegador)
 ```bash
 ionic serve
@@ -212,8 +221,3 @@ Puedes crear más planes desde el dashboard del asesor.
 ### Error al leer/escribir en Firestore
 - Verifica las reglas de seguridad de Firestore
 - Asegúrate de que el usuario esté autenticado cuando sea necesario
-
-## Licencia
-
-Este proyecto es de uso educativo.
-

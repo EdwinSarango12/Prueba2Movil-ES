@@ -1,0 +1,22 @@
+<ion-content [fullscreen]="true">
+  <div class="slides-container">
+    <div *ngFor="let slide of slides; let i = index" class="slide" [class.active]="currentSlide === i">
+      <div class="slide-container">
+        <ion-icon [name]="slide.icon" [color]="slide.color" class="slide-icon"></ion-icon>
+        <h2>{{ slide.title }}</h2>
+        <p>{{ slide.description }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-indicators">
+    <span *ngFor="let slide of slides; let i = index" 
+          [class.active]="currentSlide === i"
+          (click)="goToSlide(i)"></span>
+  </div>
+
+  <div class="slide-footer">
+    <ion-button fill="clear" (click)="skip()">Saltar</ion-button>
+    <ion-button (click)="goToLogin()">Comenzar</ion-button>
+  </div>
+</ion-content>

@@ -1,0 +1,43 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-badge slot="start" color="primary" class="badge-invitado">Invitado</ion-badge>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="goBack()">
+        <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+        Volver
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="registro-content">
+  <div class="registro-container">
+    <h1 class="page-title">Registro</h1>
+
+    <form [formGroup]="registroForm" (ngSubmit)="register()">
+      <ion-item class="form-item">
+        <ion-label position="stacked">Nombre Completo</ion-label>
+        <ion-input type="text" formControlName="displayName" placeholder="Usuario"></ion-input>
+      </ion-item>
+
+      <ion-item class="form-item">
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input type="email" formControlName="email" placeholder="user@email.com"></ion-input>
+      </ion-item>
+
+      <ion-item class="form-item">
+        <ion-label position="stacked">Teléfono</ion-label>
+        <ion-input type="tel" formControlName="telefono" placeholder="0999123456"></ion-input>
+      </ion-item>
+
+      <ion-item class="form-item">
+        <ion-label position="stacked">Contraseña</ion-label>
+        <ion-input type="password" formControlName="password" placeholder="••••••••"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" type="submit" [disabled]="registroForm.invalid" class="btn-crear-cuenta">
+        Crear Cuenta
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

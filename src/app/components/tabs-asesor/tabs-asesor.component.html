@@ -1,0 +1,24 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom" class="custom-tab-bar">
+    <ion-tab-button [class.active]="isActive('/asesor/dashboard')" (click)="navigateTo('/asesor/dashboard')">
+      <ion-icon name="document-text-outline"></ion-icon>
+      <ion-label>Planes</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button [class.active]="isActive('/asesor/contrataciones')" (click)="navigateTo('/asesor/contrataciones')">
+      <ion-icon name="cart-outline"></ion-icon>
+      <ion-label>Solicitudes</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button [class.active]="isActive('/asesor/chat')" (click)="navigateTo('/asesor/dashboard')">
+      <ion-icon name="chatbubbles-outline"></ion-icon>
+      <ion-label>Chats</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button [class.active]="isActive('/perfil')" (click)="navigateTo('/perfil')">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Perfil</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
+

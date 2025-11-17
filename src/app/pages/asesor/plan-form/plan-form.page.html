@@ -1,0 +1,106 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isEditMode ? 'Editar Plan' : 'Nuevo Plan' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form [formGroup]="planForm" (ngSubmit)="savePlan()">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Información Básica</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Nombre del Plan</ion-label>
+          <ion-input formControlName="nombre" placeholder="Ej: Plan Premium 15GB"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Precio (USD/mes)</ion-label>
+          <ion-input type="number" formControlName="precio" placeholder="29.99"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Segmento</ion-label>
+          <ion-select formControlName="segmento">
+            <ion-select-option value="basico">Básico</ion-select-option>
+            <ion-select-option value="medio">Medio</ion-select-option>
+            <ion-select-option value="premium">Premium</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Activo</ion-label>
+          <ion-toggle formControlName="activo"></ion-toggle>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Características</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Datos Móviles</ion-label>
+          <ion-input formControlName="datosGB" placeholder="15 GB o ILIMITADOS"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Minutos de Voz</ion-label>
+          <ion-input formControlName="minutosVoz" placeholder="300 o ILIMITADOS"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">SMS</ion-label>
+          <ion-input formControlName="sms" placeholder="Ilimitados"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Velocidad</ion-label>
+          <ion-input formControlName="velocidad" placeholder="Hasta 100 Mbps"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Redes Sociales</ion-label>
+          <ion-input formControlName="redesSociales" placeholder="Facebook, Instagram GRATIS"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">WhatsApp</ion-label>
+          <ion-input formControlName="whatsapp" placeholder="Ilimitado"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Llamadas Internacionales</ion-label>
+          <ion-input formControlName="llamadasInternacionales" placeholder="$0.10/min"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Roaming</ion-label>
+          <ion-input formControlName="roaming" placeholder="500 MB incluidos"></ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Imagen Promocional</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <img *ngIf="imagePreview" [src]="imagePreview" alt="Preview" class="image-preview" />
+        <input type="file" accept="image/jpeg,image/jpg,image/png" (change)="onFileSelected($event)" />
+        <p class="file-info">Máximo 5MB, formatos JPG o PNG</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button expand="block" type="submit" [disabled]="planForm.invalid" class="save-button">
+      {{ isEditMode ? 'Actualizar Plan' : 'Crear Plan' }}
+    </ion-button>
+  </form>
+</ion-content>
+

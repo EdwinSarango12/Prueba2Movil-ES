@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-badge slot="start" color="primary" class="badge-invitado">Invitado</ion-badge>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="goBack()">
+        <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+        Volver
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="login-content">
+  <div class="login-container">
+    <h1 class="page-title">Iniciar Sesión</h1>
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <ion-item class="form-item">
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input type="email" formControlName="email" placeholder="tu@email.com"></ion-input>
+      </ion-item>
+
+      <ion-item class="form-item">
+        <ion-label position="stacked">Contraseña</ion-label>
+        <ion-input type="password" formControlName="password" placeholder="••••••••"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" type="submit" [disabled]="loginForm.invalid" class="btn-usuario">
+        Ingresar como Usuario
+      </ion-button>
+
+      <ion-button expand="block" fill="outline" type="button" [disabled]="loginForm.invalid" class="btn-asesor" (click)="loginAsAsesor()">
+        Ingresar como Asesor
+      </ion-button>
+
+      <div class="forgot-password">
+        <a (click)="forgotPassword()">¿Olvidaste tu contraseña?</a>
+      </div>
+    </form>
+  </div>
+</ion-content>

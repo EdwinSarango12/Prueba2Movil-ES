@@ -1,0 +1,49 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-badge slot="start" color="primary" class="badge-user">Usuario Registrado</ion-badge>
+    <ion-title>Mi Perfil</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="user" class="profile-container">
+    <div class="profile-header">
+      <ion-avatar class="profile-avatar">
+        <div class="avatar-initial">{{ (user.displayName && user.displayName.length > 0) ? user.displayName.charAt(0).toUpperCase() : 'U' }}</div>
+      </ion-avatar>
+      <h2>{{ user.displayName || 'Usuario' }}</h2>
+      <p>{{ user.email }}</p>
+    </div>
+
+    <ion-list class="profile-details">
+      <ion-item class="detail-item">
+        <ion-icon name="mail-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>
+          <h3>Email</h3>
+          <p>{{ user.email }}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item class="detail-item">
+        <ion-icon name="call-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>
+          <h3>Teléfono</h3>
+          <p>+593 99 123 4567</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <div class="action-buttons">
+      <ion-button expand="block" class="btn-editar" (click)="editarPerfil()">
+        Editar Perfil
+      </ion-button>
+      <ion-button expand="block" fill="outline" color="danger" class="btn-cerrar" (click)="logout()">
+        Cerrar Sesión
+      </ion-button>
+    </div>
+  </div>
+
+  <app-tabs></app-tabs>
+</ion-content>

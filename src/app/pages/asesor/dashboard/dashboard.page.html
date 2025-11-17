@@ -1,0 +1,76 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-badge slot="start" color="success" class="badge-asesor">Asesor Comercial</ion-badge>
+    <ion-title>Panel de Asesor</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card class="gestion-planes-card">
+    <ion-card-header>
+      <ion-card-title>Gestión de Planes</ion-card-title>
+      <ion-card-subtitle>Administra el catálogo de planes móviles</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button expand="block" fill="outline" (click)="crearPlan()" class="btn-crear-plan">
+        <ion-icon name="add-outline" slot="start"></ion-icon>
+        Crear Nuevo Plan
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="planes-activos-section">
+    <h3>Planes Activos</h3>
+
+    <div *ngIf="loading" class="loading-container">
+      <ion-spinner></ion-spinner>
+    </div>
+
+    <div *ngIf="!loading && planes.length === 0" class="empty-container">
+      <ion-icon name="document-text-outline"></ion-icon>
+      <p>No hay planes creados</p>
+    </div>
+
+    <ion-list *ngIf="!loading && planes.length > 0">
+      <ion-card *ngFor="let plan of planes" class="plan-card-asesor">
+        <div class="plan-header-card" [ngClass]="getPlanColorClass(plan.segmento)">
+          <div class="plan-title-section">
+            <h2>{{ plan.nombre }}</h2>
+            <ion-badge *ngIf="plan.segmento === 'basico'" color="warning" class="plan-badge">¡Primer mes gratis!</ion-badge>
+            <ion-badge *ngIf="plan.segmento === 'medio'" color="warning" class="plan-badge">WhatsApp ilimitado</ion-badge>
+            <ion-badge *ngIf="plan.segmento === 'premium'" color="warning" class="plan-badge">Redes sociales gratis</ion-badge>
+          </div>
+          <div class="plan-price">${{ plan.precio }}</div>
+        </div>
+        <ion-card-content>
+          <p class="plan-description">{{ getPlanDescription(plan.segmento) }}</p>
+          <div class="plan-features">
+            <div class="feature-item">
+              <ion-icon name="cellular-outline"></ion-icon>
+              <span>{{ plan.datosGB }}</span>
+            </div>
+            <div class="feature-item">
+              <ion-icon name="call-outline"></ion-icon>
+              <span>{{ plan.minutosVoz }}</span>
+            </div>
+          </div>
+          <div class="plan-actions">
+            <ion-button fill="outline" color="success" (click)="editarPlan(plan.id!)">
+              <ion-icon name="create-outline" slot="start"></ion-icon>
+              Editar
+            </ion-button>
+            <ion-button fill="outline" color="danger" (click)="eliminarPlan(plan.id!)">
+              <ion-icon name="trash-outline" slot="start"></ion-icon>
+              Eliminar
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+  </div>
+
+  <app-tabs-asesor></app-tabs-asesor>
+</ion-content>

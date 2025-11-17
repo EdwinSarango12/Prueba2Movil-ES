@@ -1,0 +1,26 @@
+.custom-tab-bar {
+  --background: white;
+  --border: 1px solid #e0e0e0;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  ion-tab-button {
+    --color: #999;
+    --color-selected: #667eea;
+
+    ion-icon {
+      font-size: 24px;
+    }
+
+    ion-label {
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    &.active {
+      --color: #667eea;
+    }
+  }
+}
+

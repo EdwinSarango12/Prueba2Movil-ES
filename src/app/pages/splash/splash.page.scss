@@ -1,0 +1,64 @@
+.splash-content {
+  --background: #ffffff;
+}
+
+.splash-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+}
+
+.welcome-banner {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  width: 100%;
+  padding: 40px 20px;
+  border-radius: 20px;
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+  h1 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 18px;
+    opacity: 0.95;
+  }
+}
+
+.action-buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  ion-button {
+    --border-radius: 12px;
+    height: 50px;
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .btn-invitado {
+    --background: #667eea;
+    --color: white;
+    box-shadow: 0 4px 10px rgba(255, 107, 53, 0.3);
+  }
+
+  .btn-login {
+    --border-color: #667eea;
+    --color: #667eea;
+    --border-width: 2px;
+  }
+
+  .btn-registro {
+    --color: #666;
+  }
+}

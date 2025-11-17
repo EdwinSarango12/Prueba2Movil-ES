@@ -1,0 +1,20 @@
+<ion-content [fullscreen]="true" class="splash-content">
+  <div class="splash-container">
+    <div class="welcome-banner">
+      <h1>Bienvenido a Tigo</h1>
+      <p>Descubre nuestros planes móviles</p>
+    </div>
+
+    <div class="action-buttons">
+      <ion-button expand="block" class="btn-invitado" (click)="goToCatalogo()">
+        Explorar como Invitado
+      </ion-button>
+      <ion-button expand="block" fill="outline" class="btn-login" (click)="goToLogin()">
+        Iniciar Sesión
+      </ion-button>
+      <ion-button expand="block" fill="clear" class="btn-registro" (click)="goToRegistro()">
+        Registrarse
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

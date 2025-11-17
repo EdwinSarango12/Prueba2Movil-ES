@@ -1,0 +1,43 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-badge slot="start" color="primary" class="badge-user">Usuario Registrado</ion-badge>
+    <ion-title>Mis Contrataciones</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner></ion-spinner>
+    <p>Cargando contrataciones...</p>
+  </div>
+
+  <div *ngIf="!loading && contrataciones.length === 0" class="empty-container">
+    <ion-icon name="document-text-outline"></ion-icon>
+    <p>No tienes contrataciones</p>
+  </div>
+
+  <ion-list *ngIf="!loading && contrataciones.length > 0" class="contrataciones-list">
+    <ion-card *ngFor="let contratacion of contrataciones" class="contratacion-card">
+      <ion-card-content>
+        <div class="contratacion-header">
+          <div class="contratacion-info">
+            <h2>{{ contratacion.planNombre }}</h2>
+            <p class="fecha">Fecha: {{ contratacion.fechaSolicitud | date:'yyyy-MM-dd' }}</p>
+          </div>
+          <ion-badge [color]="getEstadoColor(contratacion.estado)" class="estado-badge">
+            {{ contratacion.estado | uppercase }}
+          </ion-badge>
+        </div>
+        <ion-button expand="block" fill="outline" (click)="abrirChat(contratacion.id!)" class="btn-chat">
+          <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
+          Chat con Asesor
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <app-tabs></app-tabs>
+</ion-content>

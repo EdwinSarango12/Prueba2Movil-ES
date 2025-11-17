@@ -1,0 +1,62 @@
+.badge-user {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border-radius: 15px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+.chat-header {
+  padding: 15px;
+  background: var(--ion-color-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.messages-container {
+  padding: 10px;
+  min-height: calc(100vh - 250px);
+  padding-bottom: 80px;
+}
+
+.message {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 80%;
+}
+
+.my-message {
+  background: #667eea;
+  color: white;
+  margin-left: auto;
+  text-align: right;
+}
+
+.other-message {
+  background: var(--ion-color-light);
+  color: var(--ion-color-dark);
+  margin-right: auto;
+}
+
+.message-header {
+  font-size: 12px;
+  margin-bottom: 5px;
+  opacity: 0.8;
+}
+
+.timestamp {
+  margin-left: 10px;
+  font-size: 10px;
+}
+
+.message-body {
+  word-wrap: break-word;
+}

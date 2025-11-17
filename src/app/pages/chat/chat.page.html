@@ -1,0 +1,49 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-badge slot="start" color="primary" class="badge-user">Usuario Registrado</ion-badge>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Chat con Asesor</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" #content>
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <div *ngIf="contratacion && !loading" class="chat-header">
+    <p><strong>Plan:</strong> {{ contratacion.planNombre }}</p>
+    <ion-badge [color]="contratacion.estado === 'aprobada' ? 'success' : contratacion.estado === 'rechazada' ? 'danger' : 'warning'">
+      {{ contratacion.estado | titlecase }}
+    </ion-badge>
+  </div>
+
+  <div class="messages-container" *ngIf="!loading">
+    <div *ngFor="let mensaje of mensajes" [class]="isMyMessage(mensaje) ? 'message my-message' : 'message other-message'">
+      <div class="message-header">
+        <strong>{{ mensaje.remitenteEmail }}</strong>
+        <span class="timestamp">{{ mensaje.timestamp?.toDate() | date:'short' }}</span>
+      </div>
+      <div class="message-body">{{ mensaje.mensaje }}</div>
+    </div>
+  </div>
+
+  <ion-footer>
+    <ion-toolbar>
+      <ion-item>
+        <ion-input 
+          [(ngModel)]="nuevoMensaje" 
+          placeholder="Escribe un mensaje..."
+          (keyup.enter)="enviarMensaje()">
+        </ion-input>
+        <ion-button slot="end" (click)="enviarMensaje()" [disabled]="!nuevoMensaje.trim()">
+          <ion-icon name="send-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-toolbar>
+  </ion-footer>
+
+  <app-tabs></app-tabs>
+</ion-content>

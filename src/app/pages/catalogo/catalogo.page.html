@@ -1,0 +1,70 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-badge slot="start" color="primary" class="badge-invitado">Invitado</ion-badge>
+    <ion-title>Tigo Conecta</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="login-prompt">
+    <p>¿Quieres contratar un plan?</p>
+    <ion-button expand="block" (click)="goToLogin()" class="btn-login-prompt">
+      Inicia Sesión
+    </ion-button>
+  </div>
+
+  <div class="promo-banner">
+    <h2>Nuevos Planes Tigo</h2>
+    <p>Los mejores planes del mercado</p>
+  </div>
+
+  <div class="search-bar">
+    <ion-searchbar placeholder="Buscar planes..." (ionInput)="onSearchChange($event)"></ion-searchbar>
+  </div>
+
+  <div class="planes-section">
+    <h3>Planes Disponibles</h3>
+
+    <div *ngIf="loading" class="loading-container">
+      <ion-spinner></ion-spinner>
+    </div>
+
+    <div *ngIf="!loading && filteredPlanes.length === 0" class="empty-container">
+      <ion-icon name="phone-portrait-outline"></ion-icon>
+      <p>No hay planes disponibles</p>
+    </div>
+
+    <div class="planes-grid" *ngIf="!loading && filteredPlanes.length > 0">
+      <ion-card *ngFor="let plan of filteredPlanes" class="plan-card" (click)="verDetalle(plan.id!)">
+        <div class="plan-header" [ngClass]="getPlanColorClass(plan.segmento)">
+          <div class="plan-title-section">
+            <h2>{{ plan.nombre }}</h2>
+            <ion-badge *ngIf="plan.segmento === 'basico'" color="warning" class="plan-badge">¡Primer mes gratis!</ion-badge>
+            <ion-badge *ngIf="plan.segmento === 'medio'" color="warning" class="plan-badge">WhatsApp ilimitado</ion-badge>
+            <ion-badge *ngIf="plan.segmento === 'premium'" color="warning" class="plan-badge">Redes sociales gratis</ion-badge>
+          </div>
+          <div class="plan-price">${{ plan.precio }}</div>
+        </div>
+        <ion-card-content>
+          <p class="plan-description">{{ getPlanDescription(plan.segmento) }}</p>
+          <div class="plan-features">
+            <div class="feature-item">
+              <ion-icon name="cellular-outline"></ion-icon>
+              <span>{{ plan.datosGB }}</span>
+            </div>
+            <div class="feature-item">
+              <ion-icon name="call-outline"></ion-icon>
+              <span>{{ plan.minutosVoz }}</span>
+            </div>
+          </div>
+          <ion-button expand="block" fill="outline" class="btn-ver-detalles">
+            Ver Detalles
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

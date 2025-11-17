@@ -1,0 +1,93 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-badge *ngIf="user" slot="start" [color]="user.rol === 'asesor_comercial' ? 'success' : 'primary'" class="badge-user">
+      {{ user.rol === 'asesor_comercial' ? 'Asesor Comercial' : 'Usuario Registrado' }}
+    </ion-badge>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle del Plan</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner></ion-spinner>
+    <p>Cargando plan...</p>
+  </div>
+
+  <div *ngIf="!loading && plan">
+    <div class="plan-image-container" [ngClass]="getPlanColorClass(plan.segmento)">
+      <!-- Imagen o gradiente de fondo -->
+    </div>
+
+    <ion-card class="plan-detail-card">
+      <ion-card-header>
+        <div class="plan-header-info">
+          <ion-card-title>{{ plan.nombre }}</ion-card-title>
+          <ion-card-subtitle class="plan-price">${{ plan.precio }}</ion-card-subtitle>
+        </div>
+        <ion-badge *ngIf="plan.segmento === 'basico'" color="warning">¡Primer mes gratis!</ion-badge>
+        <ion-badge *ngIf="plan.segmento === 'medio'" color="warning">WhatsApp ilimitado</ion-badge>
+        <ion-badge *ngIf="plan.segmento === 'premium'" color="warning">Redes sociales gratis</ion-badge>
+      </ion-card-header>
+      <ion-card-content>
+        <p class="plan-description">{{ getPlanDescription(plan.segmento) }}</p>
+        
+        <ion-list>
+          <ion-item>
+            <ion-icon name="cellular-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h3>Datos</h3>
+              <p>{{ plan.datosGB }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="call-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h3>Minutos</h3>
+              <p>{{ plan.minutosVoz }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h3>SMS</h3>
+              <p>{{ plan.sms }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="speedometer-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h3>Velocidad</h3>
+              <p>{{ plan.velocidad }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
+            <ion-label>
+              <h3>WhatsApp</h3>
+              <p>{{ plan.whatsapp }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="globe-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h3>Roaming</h3>
+              <p>{{ plan.roaming }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <ion-button *ngIf="user" expand="block" (click)="contratar()" class="contratar-button">
+          Contratar Plan
+        </ion-button>
+        <ion-button *ngIf="!user" expand="block" (click)="goToLogin()" class="contratar-button">
+          Iniciar Sesión para Contratar
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <app-tabs *ngIf="user"></app-tabs>
+</ion-content>

@@ -1,6 +1,7 @@
 # Planes Móviles Tigo Ecuador - Ionic App
 
 Aplicación móvil desarrollada con Ionic Framework y Angular (NgModules) para la gestión de planes móviles de Tigo Ecuador.
+[APK realizada](apk)
 
 ## Características
 

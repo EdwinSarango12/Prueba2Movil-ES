@@ -3,6 +3,8 @@
 Aplicación móvil desarrollada con Ionic Framework y Angular (NgModules) para la gestión de planes móviles de Tigo Ecuador.
 [APK realizada](apk)
 
+
+Pagina web desplegada: https://prueba2-es.web.app/splash
 ## Características
 
 - Autenticación con Firebase (Email/Password)

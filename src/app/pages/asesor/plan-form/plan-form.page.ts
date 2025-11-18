@@ -107,13 +107,25 @@ export class PlanFormPage implements OnInit {
         // Subir imagen si hay una nueva
         if (this.selectedFile) {
           const imageId = this.planId || `plan_${Date.now()}`;
-          const imageUrl = await this.storageService.uploadPlanImage(this.selectedFile, imageId).toPromise();
+          console.log('Subiendo imagen a Firebase Storage...');
+          const imageUrl = await new Promise<string>((resolve, reject) => {
+            this.storageService.uploadPlanImage(this.selectedFile!, imageId).subscribe({
+              next: (url) => resolve(url),
+              error: (error) => reject(error)
+            });
+          });
           planData.imagenUrl = imageUrl;
 
           // Eliminar imagen antigua si estamos editando
           if (this.isEditMode && this.planForm.get('imagenUrl')?.value) {
             try {
-              await this.storageService.deleteImage(this.planForm.get('imagenUrl')?.value).toPromise();
+              console.log('Eliminando imagen antigua...');
+              await new Promise<void>((resolve, reject) => {
+                this.storageService.deleteImage(this.planForm.get('imagenUrl')?.value).subscribe({
+                  next: () => resolve(),
+                  error: (error) => reject(error)
+                });
+              });
             } catch (error) {
               console.error('Error deleting old image:', error);
             }
@@ -121,8 +133,10 @@ export class PlanFormPage implements OnInit {
         }
 
         if (this.isEditMode && this.planId) {
+          console.log('Actualizando plan...');
           await this.planService.updatePlan(this.planId, planData);
         } else {
+          console.log('Creando nuevo plan...');
           await this.planService.createPlan(planData, this.user.uid);
         }
 
@@ -132,6 +146,7 @@ export class PlanFormPage implements OnInit {
         });
       } catch (error: any) {
         await loading.dismiss();
+        console.error('Error saving plan:', error);
         this.showAlert('Error', error.message || 'Error al guardar el plan');
       }
     }

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { PlanFormPageRoutingModule } from './plan-form-routing.module';
 import { PlanFormPage } from './plan-form.page';
+import { TabsAsesorModule } from '../../../components/tabs-asesor/tabs-asesor.module';
 
 @NgModule({
   imports: [
@@ -11,7 +12,8 @@ import { PlanFormPage } from './plan-form.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    PlanFormPageRoutingModule
+    PlanFormPageRoutingModule,
+    TabsAsesorModule
   ],
   declarations: [PlanFormPage]
 })

@@ -38,6 +38,16 @@ export class ChatPage implements OnInit {
       if (user && this.contratacionId) {
         this.loadContratacion();
         this.loadMensajes();
+        
+        // Enviar mensaje automático si viene en queryParams
+        this.route.queryParams.subscribe(params => {
+          if (params['mensaje']) {
+            setTimeout(() => {
+              this.nuevoMensaje = params['mensaje'];
+              this.enviarMensaje();
+            }, 500);
+          }
+        });
       }
     });
   }
@@ -58,12 +68,16 @@ export class ChatPage implements OnInit {
       this.chatService.getMensajes(this.contratacionId).subscribe({
         next: (mensajes) => {
           this.mensajes = mensajes;
-          setTimeout(() => this.scrollToBottom(), 100);
+          setTimeout(() => this.scrollToBottom(), 200);
           
           // Marcar como leídos
           if (this.user) {
             this.chatService.markAsRead(this.contratacionId, this.user.uid);
           }
+        },
+        error: (error) => {
+          console.error('Error loading messages:', error);
+          this.loading = false;
         }
       });
     }
@@ -72,18 +86,21 @@ export class ChatPage implements OnInit {
   async enviarMensaje() {
     if (!this.nuevoMensaje.trim() || !this.user || !this.contratacionId) return;
 
+    const mensajeTexto = this.nuevoMensaje.trim();
+    this.nuevoMensaje = ''; // Limpiar inmediatamente para mejor UX
+
     try {
       await this.chatService.sendMessage({
         contratacionId: this.contratacionId,
         remitenteId: this.user.uid,
         remitenteEmail: this.user.email,
         remitenteRol: this.user.rol,
-        mensaje: this.nuevoMensaje.trim()
+        mensaje: mensajeTexto
       });
-      this.nuevoMensaje = '';
-      setTimeout(() => this.scrollToBottom(), 100);
+      setTimeout(() => this.scrollToBottom(), 200);
     } catch (error) {
       console.error('Error sending message:', error);
+      this.nuevoMensaje = mensajeTexto; // Restaurar mensaje si hay error
     }
   }
 

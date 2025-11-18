@@ -89,12 +89,49 @@
 
     <ion-card>
       <ion-card-header>
-        <ion-card-title>Imagen Promocional</ion-card-title>
+        <ion-card-title>
+          <ion-icon name="image-outline" slot="start"></ion-icon>
+          Imagen Promocional
+        </ion-card-title>
+        <ion-card-subtitle>Sube una imagen para tu plan (se guardará en Supabase)</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
-        <img *ngIf="imagePreview" [src]="imagePreview" alt="Preview" class="image-preview" />
-        <input type="file" accept="image/jpeg,image/jpg,image/png" (change)="onFileSelected($event)" />
-        <p class="file-info">Máximo 5MB, formatos JPG o PNG</p>
+        <div class="image-upload-container">
+          <div *ngIf="imagePreview" class="image-preview-wrapper">
+            <img [src]="imagePreview" alt="Preview" class="image-preview" />
+            <p class="preview-label">Vista previa</p>
+          </div>
+          
+          <div *ngIf="!imagePreview" class="upload-placeholder">
+            <ion-icon name="cloud-upload-outline"></ion-icon>
+            <p>Selecciona una imagen</p>
+          </div>
+
+          <div class="file-input-wrapper">
+            <input 
+              type="file" 
+              accept="image/jpeg,image/jpg,image/png" 
+              (change)="onFileSelected($event)"
+              #fileInput
+              class="file-input"
+            />
+            <ion-button 
+              expand="block" 
+              fill="outline" 
+              type="button"
+              (click)="fileInput.click()"
+              class="btn-upload"
+            >
+              <ion-icon name="folder-open-outline" slot="start"></ion-icon>
+              Seleccionar Imagen
+            </ion-button>
+          </div>
+
+          <p class="file-info">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            Máximo 5MB • Formatos: JPG, PNG
+          </p>
+        </div>
       </ion-card-content>
     </ion-card>
 
@@ -102,5 +139,7 @@
       {{ isEditMode ? 'Actualizar Plan' : 'Crear Plan' }}
     </ion-button>
   </form>
+
+  <app-tabs-asesor></app-tabs-asesor>
 </ion-content>
 

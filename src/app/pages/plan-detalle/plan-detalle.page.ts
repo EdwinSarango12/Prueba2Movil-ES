@@ -106,6 +106,46 @@ export class PlanDetallePage implements OnInit {
     await alert.present();
   }
 
+  async consultarPlan() {
+    if (!this.user) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    if (!this.plan) return;
+
+    try {
+      // Crear una contratación temporal para el chat
+      const contratacion = await this.contratacionService.createContratacion({
+        planId: this.planId,
+        planNombre: this.plan.nombre,
+        usuarioId: this.user.uid,
+        usuarioEmail: this.user.email
+      });
+
+      // Preparar mensaje automático con datos del plan
+      const mensajeAutomatico = `Hola, estoy interesado en el plan ${this.plan.nombre} ($${this.plan.precio}/mes). 
+Datos: ${this.plan.datosGB}
+Minutos: ${this.plan.minutosVoz}
+Me gustaría saber más información.`;
+
+      // Navegar al chat y pasar los datos del plan
+      this.router.navigate(['/chat', contratacion], {
+        queryParams: {
+          mensaje: mensajeAutomatico,
+          planNombre: this.plan.nombre
+        }
+      });
+    } catch (error: any) {
+      const errorAlert = await this.alertController.create({
+        header: 'Error',
+        message: error.message || 'Error al abrir el chat',
+        buttons: ['OK']
+      });
+      await errorAlert.present();
+    }
+  }
+
   goToLogin() {
     this.router.navigate(['/login']);
   }

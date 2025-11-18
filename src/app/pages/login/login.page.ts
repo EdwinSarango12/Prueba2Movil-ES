@@ -1,10 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule as NgReactiveFormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-import { AlertController, LoadingController, IonicModule as IonicAngularModule } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
 import { Subject } from 'rxjs';
 import { first, filter, takeUntil } from 'rxjs/operators';
@@ -13,15 +10,7 @@ import { first, filter, takeUntil } from 'rxjs/operators';
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    NgReactiveFormsModule,
-    RouterModule,
-    IonicAngularModule
-  ]
+  standalone: false
 })
 export class LoginPage implements OnInit, OnDestroy {
   loginForm: FormGroup;
@@ -58,7 +47,7 @@ export class LoginPage implements OnInit, OnDestroy {
     if (this.loginForm.invalid || this.isLoginInProgress) {
       return;
     }
-
+  
     this.isLoginInProgress = true;
     const loading = await this.loadingController.create({
       message: 'Iniciando sesión...',
@@ -73,40 +62,28 @@ export class LoginPage implements OnInit, OnDestroy {
         this.loginForm.value.email,
         this.loginForm.value.password
       );
-
-      // Esperar a que el usuario esté disponible (máximo 5 segundos)
-      const user = await new Promise<any>((resolve, reject) => {
-        const subscription = this.authService.getCurrentUser()
-          .pipe(
-            filter(user => user !== null),
-            first(),
-            takeUntil(this.destroy$)
-          )
-          .subscribe({
-            next: (user) => {
-              subscription.unsubscribe();
-              resolve(user);
-            },
-            error: (err) => {
-              subscription.unsubscribe();
-              reject(err);
-            }
-          });
-        
-        // Timeout después de 5 segundos
-        setTimeout(() => {
-          subscription.unsubscribe();
-          reject(new Error('Tiempo de espera agotado'));
-        }, 5000);
-      });
-
+  
+      // Obtener el usuario directamente después del login
+      const user = await this.authService.getUserAfterLogin();
+  
+      console.log('=== DEBUG LOGIN ===');
+      console.log('Usuario obtenido:', user);
+      console.log('Rol del usuario:', user?.rol);
+      console.log('==================');
+  
       await loading.dismiss();
       this.isLoginInProgress = false;
       
+      if (!user) {
+        throw new Error('No se pudo obtener la información del usuario');
+      }
+      
       // Navegar según el rol del usuario
-      if (user && user.rol === 'asesor_comercial') {
+      if (user.rol === 'asesor_comercial') {
+        console.log('Navegando a dashboard de asesor');
         this.router.navigate(['/asesor/dashboard']);
       } else {
+        console.log('Navegando a home de usuario');
         this.router.navigate(['/home']);
       }
       
@@ -114,9 +91,11 @@ export class LoginPage implements OnInit, OnDestroy {
       this.isLoginInProgress = false;
       await loading.dismiss();
       
+      console.error('Error en login:', error);
+      
       let errorMessage = 'Error al iniciar sesión. Por favor, intente nuevamente.';
       
-      if (error.code) {
+      if (error && error.code) {
         switch (error.code) {
           case 'auth/user-not-found':
             errorMessage = 'No existe una cuenta con este correo electrónico.';
@@ -130,8 +109,14 @@ export class LoginPage implements OnInit, OnDestroy {
           case 'auth/user-disabled':
             errorMessage = 'Esta cuenta ha sido deshabilitada.';
             break;
+          case 'auth/invalid-email':
+            errorMessage = 'El correo electrónico no es válido.';
+            break;
+          case 'auth/network-request-failed':
+            errorMessage = 'Error de conexión. Por favor, verifique su internet.';
+            break;
         }
-      } else if (error.message) {
+      } else if (error && error.message) {
         errorMessage = error.message;
       }
       
@@ -159,37 +144,18 @@ export class LoginPage implements OnInit, OnDestroy {
         this.loginForm.value.password
       );
 
-      // Esperar a que el usuario esté disponible (máximo 5 segundos)
-      const user = await new Promise<any>((resolve, reject) => {
-        const subscription = this.authService.getCurrentUser()
-          .pipe(
-            filter(user => user !== null),
-            first(),
-            takeUntil(this.destroy$)
-          )
-          .subscribe({
-            next: (user) => {
-              subscription.unsubscribe();
-              resolve(user);
-            },
-            error: (err) => {
-              subscription.unsubscribe();
-              reject(err);
-            }
-          });
-        
-        // Timeout después de 5 segundos
-        setTimeout(() => {
-          subscription.unsubscribe();
-          reject(new Error('Tiempo de espera agotado'));
-        }, 5000);
-      });
+      // Obtener el usuario directamente después del login
+      const user = await this.authService.getUserAfterLogin();
 
       await loading.dismiss();
       this.isLoginInProgress = false;
       
+      if (!user) {
+        throw new Error('No se pudo obtener la información del usuario');
+      }
+      
       // Verificar si el usuario es asesor
-      if (user && user.rol === 'asesor_comercial') {
+      if (user.rol === 'asesor_comercial') {
         this.router.navigate(['/asesor/dashboard']);
       } else {
         await this.presentAlert('Acceso Denegado', 'Esta cuenta no tiene permisos de asesor comercial');
@@ -199,9 +165,11 @@ export class LoginPage implements OnInit, OnDestroy {
       this.isLoginInProgress = false;
       await loading.dismiss();
       
+      console.error('Error en loginAsAsesor:', error);
+      
       let errorMessage = 'Error al iniciar sesión. Por favor, intente nuevamente.';
       
-      if (error.code) {
+      if (error && error.code) {
         switch (error.code) {
           case 'auth/user-not-found':
             errorMessage = 'No existe una cuenta con este correo electrónico.';
@@ -215,8 +183,14 @@ export class LoginPage implements OnInit, OnDestroy {
           case 'auth/user-disabled':
             errorMessage = 'Esta cuenta ha sido deshabilitada.';
             break;
+          case 'auth/invalid-email':
+            errorMessage = 'El correo electrónico no es válido.';
+            break;
+          case 'auth/network-request-failed':
+            errorMessage = 'Error de conexión. Por favor, verifique su internet.';
+            break;
         }
-      } else if (error.message) {
+      } else if (error && error.message) {
         errorMessage = error.message;
       }
       

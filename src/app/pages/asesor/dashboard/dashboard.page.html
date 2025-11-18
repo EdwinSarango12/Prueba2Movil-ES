@@ -9,13 +9,73 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card class="gestion-planes-card">
+  <!-- Formulario para crear plan rápido -->
+  <ion-card class="crear-plan-card" *ngIf="showCrearPlanForm">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        Crear Nuevo Plan
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="crearPlanForm">
+        <!-- Nombre del Plan -->
+        <ion-item class="form-item">
+          <ion-label position="stacked">Nombre del Plan</ion-label>
+          <ion-input type="text" formControlName="nombre" placeholder="Ej: Plan Smart 10GB"></ion-input>
+        </ion-item>
+
+        <!-- Precio y Datos -->
+        <div class="form-row">
+          <ion-item class="form-item">
+            <ion-label position="stacked">Precio Mensual ($)</ion-label>
+            <ion-input type="number" formControlName="precio" placeholder="19.99"></ion-input>
+          </ion-item>
+          <ion-item class="form-item">
+            <ion-label position="stacked">Gigas de Datos</ion-label>
+            <ion-input type="number" formControlName="datosGB" placeholder="10"></ion-input>
+          </ion-item>
+        </div>
+
+        <!-- Minutos de Llamadas -->
+        <ion-item class="form-item">
+          <ion-label position="stacked">Minutos de Llamadas</ion-label>
+          <ion-input type="number" formControlName="minutosVoz" placeholder="200"></ion-input>
+        </ion-item>
+
+        <!-- Segmento -->
+        <ion-item class="form-item">
+          <ion-label position="stacked">Segmento</ion-label>
+          <ion-select formControlName="segmento">
+            <ion-select-option value="basico">Básico</ion-select-option>
+            <ion-select-option value="medio">Medio</ion-select-option>
+            <ion-select-option value="premium">Premium</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <!-- Botones de acción -->
+        <div class="form-actions">
+          <ion-button expand="block" color="success" (click)="crearPlanRapido()" [disabled]="crearPlanForm.invalid">
+            <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+            Crear Plan
+          </ion-button>
+          <ion-button expand="block" fill="outline" (click)="toggleCrearPlanForm()">
+            <ion-icon name="close-outline" slot="start"></ion-icon>
+            Cancelar
+          </ion-button>
+        </div>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Botón para mostrar/ocultar formulario -->
+  <ion-card class="gestion-planes-card" *ngIf="!showCrearPlanForm">
     <ion-card-header>
       <ion-card-title>Gestión de Planes</ion-card-title>
       <ion-card-subtitle>Administra el catálogo de planes móviles</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <ion-button expand="block" fill="outline" (click)="crearPlan()" class="btn-crear-plan">
+      <ion-button expand="block" fill="solid" (click)="toggleCrearPlanForm()" class="btn-crear-plan">
         <ion-icon name="add-outline" slot="start"></ion-icon>
         Crear Nuevo Plan
       </ion-button>
@@ -50,19 +110,19 @@
           <div class="plan-features">
             <div class="feature-item">
               <ion-icon name="cellular-outline"></ion-icon>
-              <span>{{ plan.datosGB }}</span>
+              <span>{{ plan.datosGB | number: '1.0-0' }} GB</span>
             </div>
             <div class="feature-item">
               <ion-icon name="call-outline"></ion-icon>
-              <span>{{ plan.minutosVoz }}</span>
+              <span>{{ plan.minutosVoz | number: '1.0-0' }} min</span>
             </div>
           </div>
           <div class="plan-actions">
-            <ion-button fill="outline" color="success" (click)="editarPlan(plan.id!)">
+            <ion-button expand="block" fill="solid" color="success" (click)="editarPlan(plan.id!)" class="btn-action">
               <ion-icon name="create-outline" slot="start"></ion-icon>
               Editar
             </ion-button>
-            <ion-button fill="outline" color="danger" (click)="eliminarPlan(plan.id!)">
+            <ion-button expand="block" fill="solid" color="danger" (click)="eliminarPlan(plan.id!)" class="btn-action">
               <ion-icon name="trash-outline" slot="start"></ion-icon>
               Eliminar
             </ion-button>

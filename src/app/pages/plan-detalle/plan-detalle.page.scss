@@ -61,10 +61,30 @@
   margin-bottom: 20px;
 }
 
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+
+  ion-button {
+    --border-radius: 10px;
+    height: 50px;
+    font-weight: 600;
+  }
+}
+
 .contratar-button {
   --background: #667eea;
   --color: white;
-  margin-top: 20px;
+  --border-radius: 10px;
+  height: 50px;
+  font-weight: 600;
+}
+
+.consultar-button {
+  --border-color: #667eea;
+  --color: #667eea;
   --border-radius: 10px;
   height: 50px;
   font-weight: 600;

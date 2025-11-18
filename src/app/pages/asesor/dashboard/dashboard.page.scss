@@ -4,6 +4,79 @@
   border-radius: 15px;
 }
 
+.crear-plan-card {
+  margin: 10px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+
+  ion-card-header {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 15px;
+  }
+
+  ion-card-title {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    ion-icon {
+      font-size: 24px;
+    }
+  }
+
+  form {
+    padding: 10px 0;
+  }
+
+  .form-item {
+    --padding-start: 0;
+    --padding-end: 0;
+    margin-bottom: 15px;
+
+    ion-label {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    ion-input,
+    ion-select {
+      --padding-start: 12px;
+      --padding-end: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: white;
+      color: #333;
+    }
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+
+    .form-item {
+      margin-bottom: 0;
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+
+    ion-button {
+      margin: 0;
+    }
+  }
+}
+
 .gestion-planes-card {
   margin: 10px;
   border-radius: 15px;
@@ -119,11 +192,23 @@
 
 .plan-actions {
   display: flex;
+  flex-direction: column;
   gap: 10px;
   margin-top: 15px;
 
-  ion-button {
-    flex: 1;
+  .btn-action {
+    margin: 0;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    height: 40px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
   }
 }
 

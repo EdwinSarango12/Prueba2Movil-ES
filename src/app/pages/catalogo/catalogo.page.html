@@ -53,11 +53,11 @@
           <div class="plan-features">
             <div class="feature-item">
               <ion-icon name="cellular-outline"></ion-icon>
-              <span>{{ plan.datosGB }}</span>
+              <span>{{ plan.datosGB | number: '1.0-0' }} GB</span>
             </div>
             <div class="feature-item">
               <ion-icon name="call-outline"></ion-icon>
-              <span>{{ plan.minutosVoz }}</span>
+              <span>{{ plan.minutosVoz | number: '1.0-0' }} min</span>
             </div>
           </div>
           <ion-button expand="block" fill="outline" class="btn-ver-detalles">

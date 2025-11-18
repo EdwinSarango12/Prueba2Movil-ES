@@ -52,7 +52,7 @@ export class RegistroPage implements OnInit {
   ngOnInit() {
   }
 
-  async register() {
+  async register(rol: 'usuario_registrado' | 'asesor_comercial') {
     if (this.registroForm.valid) {
       const loading = await this.loadingController.create({
         message: 'Creando cuenta...'
@@ -60,11 +60,16 @@ export class RegistroPage implements OnInit {
       await loading.present();
 
       try {
-        await this.authService.register(
+        const createdUser = await this.authService.register(
           this.registroForm.value.email,
           this.registroForm.value.password,
-          this.registroForm.value.displayName
+          this.registroForm.value.displayName,
+          this.registroForm.value.telefono,
+          rol
         );
+
+        console.log('✅ Usuario registrado:', createdUser);
+        console.log('📌 Rol del usuario registrado:', createdUser.rol);
 
         await loading.dismiss();
         const alert = await this.alertController.create({
@@ -73,7 +78,13 @@ export class RegistroPage implements OnInit {
           buttons: [{
             text: 'OK',
             handler: () => {
-              this.router.navigate(['/home']);
+              if (createdUser.rol === 'asesor_comercial') {
+                console.log('Navegando a dashboard de asesor');
+                this.router.navigate(['/asesor/dashboard']);
+              } else {
+                console.log('Navegando a home de usuario');
+                this.router.navigate(['/home']);
+              }
             }
           }]
         });

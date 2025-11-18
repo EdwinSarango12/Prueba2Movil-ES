@@ -14,7 +14,7 @@
   <div class="registro-container">
     <h1 class="page-title">Registro</h1>
 
-    <form [formGroup]="registroForm" (ngSubmit)="register()">
+    <form [formGroup]="registroForm">
       <ion-item class="form-item">
         <ion-label position="stacked">Nombre Completo</ion-label>
         <ion-input type="text" formControlName="displayName" placeholder="Usuario"></ion-input>
@@ -34,9 +34,26 @@
         <ion-label position="stacked">Contraseña</ion-label>
         <ion-input type="password" formControlName="password" placeholder="••••••••"></ion-input>
       </ion-item>
+      <div *ngIf="registroForm.get('password')?.invalid && registroForm.get('password')?.touched" class="error-message">
+        <small *ngIf="registroForm.get('password')?.errors?.['required']">La contraseña es requerida</small>
+        <small *ngIf="registroForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</small>
+      </div>
 
-      <ion-button expand="block" type="submit" [disabled]="registroForm.invalid" class="btn-crear-cuenta">
-        Crear Cuenta
+      <ion-item class="form-item">
+        <ion-label position="stacked">Confirmar Contraseña</ion-label>
+        <ion-input type="password" formControlName="confirmPassword" placeholder="••••••••"></ion-input>
+      </ion-item>
+      <div *ngIf="registroForm.get('confirmPassword')?.invalid && registroForm.get('confirmPassword')?.touched" class="error-message">
+        <small *ngIf="registroForm.get('confirmPassword')?.errors?.['required']">Debe confirmar la contraseña</small>
+        <small *ngIf="registroForm.get('confirmPassword')?.errors?.['passwordMismatch']">Las contraseñas no coinciden</small>
+      </div>
+
+      <ion-button expand="block" type="button" [disabled]="registroForm.invalid" class="btn-usuario" (click)="register('usuario_registrado')">
+        Crear Cuenta como Usuario
+      </ion-button>
+
+      <ion-button expand="block" fill="outline" type="button" [disabled]="registroForm.invalid" class="btn-asesor" (click)="register('asesor_comercial')">
+        Crear Cuenta como Asesor
       </ion-button>
     </form>
   </div>

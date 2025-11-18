@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mis Chats</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <div *ngIf="!loading && contrataciones.length === 0" class="empty-container">
+    <ion-icon name="chatbubbles-outline"></ion-icon>
+    <p>No hay chats disponibles</p>
+  </div>
+
+  <ion-list *ngIf="!loading && contrataciones.length > 0">
+    <ion-item *ngFor="let contratacion of contrataciones" (click)="abrirChat(contratacion.id!)" button>
+      <ion-label>
+        <h2>{{ contratacion.planNombre }}</h2>
+        <p>Cliente: {{ contratacion.usuarioEmail }}</p>
+        <p>Solicitado: {{ contratacion.fechaSolicitud | date:'short' }}</p>
+        <ion-badge [color]="contratacion.estado === 'aprobada' ? 'success' : 'warning'">
+          {{ contratacion.estado | titlecase }}
+        </ion-badge>
+      </ion-label>
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    </ion-item>
+  </ion-list>
+
+  <app-tabs-asesor></app-tabs-asesor>
+</ion-content>

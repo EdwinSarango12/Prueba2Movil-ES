@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { ChatPageRoutingModule } from './chat-routing.module';
-import { ChatPage } from './chat.page';
+import { ChatsPageRoutingModule } from './chats-routing.module';
+import { ChatsPage } from './chats.page';
 import { TabsAsesorModule } from '../../../components/tabs-asesor/tabs-asesor.module';
 
 @NgModule({
@@ -11,10 +11,9 @@ import { TabsAsesorModule } from '../../../components/tabs-asesor/tabs-asesor.mo
     CommonModule,
     FormsModule,
     IonicModule,
-    ChatPageRoutingModule,
+    ChatsPageRoutingModule,
     TabsAsesorModule
   ],
-  declarations: [ChatPage]
+  declarations: [ChatsPage]
 })
-export class ChatPageModule {}
-
+export class ChatsPageModule {}

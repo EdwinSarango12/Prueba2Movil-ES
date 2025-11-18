@@ -1,6 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-badge slot="start" color="primary" class="badge-user">Usuario Registrado</ion-badge>
+    <ion-badge 
+      slot="start" 
+      [color]="user?.rol === 'asesor_comercial' ? 'success' : 'primary'" 
+      class="badge-user">
+      {{ user?.rol === 'asesor_comercial' ? 'Asesor Comercial' : 'Usuario Registrado' }}
+    </ion-badge>
     <ion-title>Mi Perfil</ion-title>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
@@ -30,7 +35,7 @@
         <ion-icon name="call-outline" slot="start" color="primary"></ion-icon>
         <ion-label>
           <h3>Teléfono</h3>
-          <p>+593 99 123 4567</p>
+          <p>{{ user.telefono || '+593 99 123 4567' }}</p>
         </ion-label>
       </ion-item>
     </ion-list>
@@ -45,5 +50,6 @@
     </div>
   </div>
 
-  <app-tabs></app-tabs>
+  <app-tabs-asesor *ngIf="user?.rol === 'asesor_comercial'"></app-tabs-asesor>
+  <app-tabs *ngIf="user?.rol !== 'asesor_comercial'"></app-tabs>
 </ion-content>

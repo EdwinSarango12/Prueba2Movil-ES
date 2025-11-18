@@ -76,10 +76,27 @@ const routes: Routes = [
         data: { expectedRole: 'asesor_comercial' }
       },
       {
+        path: 'chats',
+        loadChildren: () => import('./pages/asesor/chats/chats.module').then(m => m.ChatsPageModule),
+        canActivate: [AuthGuard, RoleGuard],
+        data: { expectedRole: 'asesor_comercial' }
+      },
+      {
         path: 'chat/:id',
         loadChildren: () => import('./pages/asesor/chat/chat.module').then(m => m.ChatPageModule),
         canActivate: [AuthGuard, RoleGuard],
         data: { expectedRole: 'asesor_comercial' }
+      },
+      {
+        path: 'perfil-asesor',
+        loadChildren: () => import('./pages/perfil/perfil.module').then(m => m.PerfilPageModule),
+        canActivate: [AuthGuard, RoleGuard],
+        data: { expectedRole: 'asesor_comercial' }
+      },
+      {
+        path: 'perfil',
+        redirectTo: '/perfil',
+        pathMatch: 'full'
       }
     ]
   },

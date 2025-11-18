@@ -18,6 +18,61 @@ export class HomePage implements OnInit {
   loading = true;
   searchTerm: string = '';
 
+  // Planes predeterminados para usuarios
+  private planesDefault: PlanMovil[] = [
+    {
+      id: 'plan-smart-5gb',
+      nombre: 'Plan Smart 5GB',
+      segmento: 'basico',
+      datosGB: 5,
+      minutosVoz: 100,
+      precio: 15.99,
+      sms: 'Ilimitados',
+      velocidad: '4G',
+      redesSociales: 'Gratis',
+      whatsapp: 'Gratis',
+      llamadasInternacionales: 'No incluidas',
+      roaming: 'No incluido',
+      activo: true,
+      createdAt: new Date(),
+      createdBy: 'admin'
+    },
+    {
+      id: 'plan-premium-15gb',
+      nombre: 'Plan Premium 15GB',
+      segmento: 'medio',
+      datosGB: 15,
+      minutosVoz: 300,
+      precio: 29.99,
+      sms: 'Ilimitados',
+      velocidad: '4G LTE',
+      redesSociales: 'Gratis',
+      whatsapp: 'Ilimitado',
+      llamadasInternacionales: 'Incluidas',
+      roaming: 'Incluido',
+      activo: true,
+      createdAt: new Date(),
+      createdBy: 'admin'
+    },
+    {
+      id: 'plan-ilimitado',
+      nombre: 'Plan Ilimitado',
+      segmento: 'premium',
+      datosGB: 'ILIMITADOS',
+      minutosVoz: 'ILIMITADOS',
+      precio: 45.99,
+      sms: 'Ilimitados',
+      velocidad: '5G',
+      redesSociales: 'Gratis',
+      whatsapp: 'Ilimitado',
+      llamadasInternacionales: 'Ilimitadas',
+      roaming: 'Incluido',
+      activo: true,
+      createdAt: new Date(),
+      createdBy: 'admin'
+    }
+  ];
+
   constructor(
     private planService: PlanService,
     private authService: AuthService,
@@ -33,17 +88,38 @@ export class HomePage implements OnInit {
   }
 
   loadPlanes() {
-    this.planService.getPlanesActivos().subscribe({
+    this.loading = true;
+    console.log('Cargando planes activos...');
+    
+    const subscription = this.planService.getPlanesActivos().subscribe({
       next: (planes) => {
-        this.planes = planes;
-        this.filteredPlanes = planes;
+        console.log('Planes cargados:', planes.length);
+        // Si no hay planes en la BD, usar planes predeterminados
+        const planesAMostrar = planes && planes.length > 0 ? planes : this.planesDefault;
+        this.planes = planesAMostrar;
+        this.filteredPlanes = planesAMostrar;
         this.loading = false;
       },
       error: (error) => {
         console.error('Error loading plans:', error);
+        // En caso de error, mostrar planes predeterminados
+        console.log('Mostrando planes predeterminados');
+        this.planes = this.planesDefault;
+        this.filteredPlanes = this.planesDefault;
         this.loading = false;
       }
     });
+    
+    // Timeout de seguridad: si no carga en 10 segundos, detener
+    setTimeout(() => {
+      if (this.loading) {
+        console.warn('Timeout al cargar planes, mostrando planes predeterminados');
+        subscription.unsubscribe();
+        this.planes = this.planesDefault;
+        this.filteredPlanes = this.planesDefault;
+        this.loading = false;
+      }
+    }, 10000);
   }
 
   onSearchChange(event: any) {

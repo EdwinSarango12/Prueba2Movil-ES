@@ -4,13 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ContratacionesPageRoutingModule } from './contrataciones-routing.module';
 import { ContratacionesPage } from './contrataciones.page';
+import { TabsAsesorModule } from '../../../components/tabs-asesor/tabs-asesor.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ContratacionesPageRoutingModule
+    ContratacionesPageRoutingModule,
+    TabsAsesorModule
   ],
   declarations: [ContratacionesPage]
 })

@@ -4,7 +4,7 @@ Aplicación móvil desarrollada con Ionic Framework y Angular (NgModules) para l
 [APK realizada](apk)
 
 
-Pagina web desplegada: [https://prueba2-es.web.app/splash](https://prueba2-es.web.app)
+Pagina web desplegada: https://prueba2-es.web.app/splash
 ## Características
 
 - Autenticación con Firebase (Email/Password)
